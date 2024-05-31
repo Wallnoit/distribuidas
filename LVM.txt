@@ -1,0 +1,99 @@
+REPASO EXAMEN DISTRIBUIDAS 
+
+LVM- MUNIN 
+
+Imagen ISO ALMA-LINUX
+
+EN LA INSTALACION VAMOS A DESTINO DE LA INSTALACION
+
+MARCAMOS PERSONALIZADO
+
+AGREGAMOS PARTICIONES
+
+--/HOME 953,67 MIB
+--/ 2,79 GIB
+--VAR 2.79 GIB
+--/BOOT 1024MIB
+--SWAP 1,02GIB
+--SWAP 953,67 MIB
+--BIOS BOOT 1024 KIB
+
+TODOS CON EXT4 MENOS BIOS BOOT, Y SWAP
+
+EN CONTRASE;A PERMITIR EL ACCESO SSH
+
+
+ssh root@10.79.5.120
+
+yum install nano vim -y
+
+nano /etc/fstab
+
+blkid /dev/mapper/almalinux-root
+blkid /dev/mapper/almalinux-home
+blkid /dev/mapper/almalinux-var
+blkid /dev/mapper/almalinux-swap
+blkid /dev/mapper/almalinux-swap00
+
+UUID=a4fa4c94-e8b4-4a7b-bc6c-8a2b0cf917b2
+UUID=b8cd37a2-f6d5-424e-8f94-cff998f42a8c
+UUID=cda7924c-49c9-471c-847c-fe8ac289c76b
+UUID=ecc10352-afb0-47a8-ab40-d4d862931dde
+
+nano /etc/login.dfs
+abajo de los otros PASS_*
+PASS_MIN_LEN	5
+
+
+
+adduser nameUser
+passwd nameUser
+
+usermod -aG wheel nameUser
+
+yum install tar -y
+
+nano backup.sh
+
+-----------------ESTO VA EN backup.sh-----------------
+
+#!/bin/bash
+FECHA_Y_HORA_ETC=`date "+%d-%m-%y_%H-%M-%S"`
+NOMBRE_ARCHIVO_ETC="respaldo_ETC_$FECHA_Y_HORA_ETC.tgz"
+CARPETA_DESTINO="RespaldosSeguridad"
+CARPETA_RESPALDO_ETC="../etc"
+#Directorio para respaldos
+mkdir -p "$CARPETA_DESTINO"
+tar cfvz "$CARPETA_DESTINO/$NOMBRE_ARCHIVO_ETC" "$CARPETA_RESPALDO_ETC"
+
+FECHA_Y_HORA_VAR=`date "+%d-%m-%y_%H-%M-%S"`
+NOMBRE_ARCHIVO_VAR="respaldo_VAR_$FECHA_Y_HORA_ETC.tgz"
+CARPETA_DESTINO="RespaldosSeguridad"
+CARPETA_RESPALDO_VAR="../var"
+#Directorio para respaldos
+mkdir -p "$CARPETA_DESTINO"
+tar cfvz "$CARPETA_DESTINO/$NOMBRE_ARCHIVO_VAR" "$CARPETA_RESPALDO_VAR"
+
+FECHA_Y_HORA_HOME=`date "+%d-%m-%y_%H-%M-%S"`
+NOMBRE_ARCHIVO_HOME="respaldo_HOME_$FECHA_Y_HORA_HOME.tgz"
+CARPETA_DESTINO="RespaldosSeguridad"
+CARPETA_RESPALDO_HOME="../home"
+#Directorio para respaldos
+mkdir -p "$CARPETA_DESTINO"
+tar cfvz "$CARPETA_DESTINO/$NOMBRE_ARCHIVO_HOME" "$CARPETA_RESPALDO_HOME"
+
+----------------------------------------------------------------------
+
+
+chmod 755 backup.sh
+
+./backup.sh
+
+EDIT=nano crontab -e
+---------------dentro---------------
+0 2 * * 1 /bin/bash /root/backup
+------------------------------------
+
+
+
+

@@ -1,0 +1,62 @@
+----------------------------------MUNIN--------------------------
+
+
+yum install httpd -y 
+
+systemctl start httpd
+systemctl enable httpd
+systemctl status httpd
+
+firewall-cmd --zone=public --add-service=http --permanent
+firewall-cmd --reload
+
+
+yum install epel-release -y
+
+
+yum install munin munin-node --skip-broken
+
+cd /etc/munin/
+ls
+
+yum install nano vim -y
+
+nano munin-node.conf
+
+--------------------------------------------------------------
+
+COPIAR AL FINAL DESPUES DE port 4949
+
+
+log_level 4
+log_file /var/log/munin-node/munin-node.log
+pid_file /var/run/munin/munin-node.pid
+dbdir /var/lin/munin
+htmldir /var/www/html/munin
+logdir /var/log/munin
+rundir /var/munin
+
+-----------------------------------------------------------------
+
+yum install perl -y
+yum update -y
+yum install perl-DateTime -y
+
+dnf config-manager --enable crb
+
+yum install munin munin-node -y
+
+systemctl start munin
+systemctl enable munin
+systemctl status munin
+
+systemctl start munin-node
+systemctl enable munin-node
+systemctl status munin-node
+
+
+http://192.168.100.243/munin/network-day.html
+
+
+
+
